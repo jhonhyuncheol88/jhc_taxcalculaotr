@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jhc_provider_taxcalculator/homepage.dart';
 import 'package:jhc_provider_taxcalculator/model.dart';
-import 'package:jhc_provider_taxcalculator/onbordingpage.dart';
 
 import 'package:provider/provider.dart';
 
@@ -43,9 +42,9 @@ class MyApp extends StatelessWidget {
                       today: ""))
             ],
             child: MaterialApp(
-              theme: ThemeData(primaryColor: Colors.grey[200]),
+              theme: ThemeData(primaryColor: Colors.green, useMaterial3: true),
               debugShowCheckedModeBanner: false,
-              home: IntroScreen(),
+              home: HomePage(),
             ),
           );
         });

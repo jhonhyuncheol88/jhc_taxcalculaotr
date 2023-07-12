@@ -222,7 +222,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.green,
         body: GestureDetector(
           onTap: () {
             setState(() {
@@ -233,10 +233,12 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Padding(padding: EdgeInsets.all(5)),
-                Container(
-                  width: ScreenUtil().setWidth(200),
-                  height: ScreenUtil().setHeight(50),
-                  child: Text('부가세 계산기 부까'),
+                Center(
+                  child: Container(
+                    width: ScreenUtil().setWidth(350),
+                    height: ScreenUtil().setHeight(50),
+                    child: Image.asset('assets/image/title1.png'),
+                  ),
                 ),
                 Container(
                   child: Text('광고자리'),
@@ -262,7 +264,10 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context) => IntroScreen()),
                           );
                         },
-                        child: Text('도움말'),
+                        child: Text(
+                          '도움말',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                     Padding(
@@ -275,7 +280,10 @@ class _HomePageState extends State<HomePage> {
                           spendingfoodController.clear();
                           spendingproductController.clear();
                         },
-                        child: Text('초기화'),
+                        child: Text(
+                          '초기화',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     )
                   ],
@@ -295,9 +303,9 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             '매출',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: ScreenUtil().setSp(12),
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: ScreenUtil().setSp(12),
+                                color: Colors.white),
                           ),
                           SizedBox(
                             height: ScreenUtil().setHeight(6),
@@ -305,8 +313,8 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             '카드,배달,현금영수증',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setSp(12),
-                            ),
+                                fontSize: ScreenUtil().setSp(12),
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -322,18 +330,19 @@ class _HomePageState extends State<HomePage> {
                         textAlign: TextAlign.end,
                         inputFormatters: [ThousandsFormatter()],
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(14),
-                        ),
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenUtil().setSp(14),
+                            color: Colors.white70),
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 3, color: Colors.grey)),
+                                borderSide: BorderSide(
+                                    width: 3, color: Colors.white70)),
                             suffixIcon: IconButton(
                                 onPressed: incomeController.clear,
                                 icon: Icon(
                                   Icons.clear,
                                   size: ScreenUtil().setSp(15),
+                                  color: Colors.white70,
                                 )),
                             counterText: "",
                             hintText: ''),
@@ -356,16 +365,16 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             '지출1',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: ScreenUtil().setSp(12),
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: ScreenUtil().setSp(12),
+                                color: Colors.white),
                           ),
                           SizedBox(height: 6),
                           Text(
                             '농축산물,식자재,면세물품',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setSp(12),
-                            ),
+                                fontSize: ScreenUtil().setSp(12),
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -382,18 +391,19 @@ class _HomePageState extends State<HomePage> {
                         textAlign: TextAlign.end,
                         inputFormatters: [ThousandsFormatter()],
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(14),
-                        ),
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenUtil().setSp(14),
+                            color: Colors.white70),
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 3, color: Colors.grey)),
+                                borderSide: BorderSide(
+                                    width: 3, color: Colors.white70)),
                             suffixIcon: IconButton(
                                 onPressed: spendingfoodController.clear,
                                 icon: Icon(
                                   Icons.clear,
                                   size: ScreenUtil().setSp(15),
+                                  color: Colors.white70,
                                 )),
                             counterText: "",
                             hintText: ''),
@@ -416,9 +426,9 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             '지출2',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: ScreenUtil().setSp(11),
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: ScreenUtil().setSp(11),
+                                color: Colors.white),
                           ),
                           SizedBox(
                             height: ScreenUtil().setHeight(6),
@@ -426,8 +436,8 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             '공산품,배달대행,광고,월세',
                             style: TextStyle(
-                              fontSize: ScreenUtil().setSp(12),
-                            ),
+                                fontSize: ScreenUtil().setSp(12),
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -443,18 +453,19 @@ class _HomePageState extends State<HomePage> {
                         textAlign: TextAlign.end,
                         inputFormatters: [ThousandsFormatter()],
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: ScreenUtil().setSp(14),
-                        ),
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenUtil().setSp(14),
+                            color: Colors.white70),
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 3, color: Colors.grey)),
+                                borderSide: BorderSide(
+                                    width: 3, color: Colors.white70)),
                             suffixIcon: IconButton(
                                 onPressed: spendingproductController.clear,
                                 icon: Icon(
                                   Icons.clear,
                                   size: ScreenUtil().setSp(15),
+                                  color: Colors.white70,
                                 )),
                             counterText: "",
                             hintText: ''),
@@ -473,26 +484,27 @@ class _HomePageState extends State<HomePage> {
                         beforeData();
                       },
                       child: Container(
-                        width: ScreenUtil().setWidth(260),
+                        decoration: BoxDecoration(
+                            color: Colors.amber,
+                            borderRadius: BorderRadius.circular(8)),
+                        width: ScreenUtil().setWidth(250),
                         height: ScreenUtil().setHeight(80),
-                        color: Colors.amber,
                         child: Center(
                           child: Column(
                             children: [
                               Text(
                                 '클릭하면 세부내역 확인가능',
                                 style:
-                                    TextStyle(fontSize: ScreenUtil().setSp(10)),
+                                    TextStyle(fontSize: ScreenUtil().setSp(12)),
+                              ),
+                              SizedBox(
+                                height: ScreenUtil().setHeight(10),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  SizedBox(
-                                    height: ScreenUtil().setHeight(6),
-                                  ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       Text(
                                         '계산 한 날짜',
@@ -500,7 +512,7 @@ class _HomePageState extends State<HomePage> {
                                             fontSize: ScreenUtil().setSp(13)),
                                       ),
                                       SizedBox(
-                                        width: ScreenUtil().setWidth(15),
+                                        width: ScreenUtil().setWidth(40),
                                       ),
                                       Text('예상 부가세',
                                           style: TextStyle(
@@ -557,7 +569,7 @@ class _HomePageState extends State<HomePage> {
                             child: AnimatedContainer(
                                 child: Icon(
                                   Icons.currency_exchange_sharp,
-                                  color: Colors.blue,
+                                  color: Colors.green,
                                   size: ScreenUtil().setSp(30),
                                 ),
                                 height: ScreenUtil().setHeight(40),
@@ -565,7 +577,7 @@ class _HomePageState extends State<HomePage> {
                                 duration: Duration(milliseconds: 1),
                                 curve: Curves.easeInBack,
                                 decoration: BoxDecoration(
-                                    color: Colors.grey[200],
+                                    color: Colors.lightGreen[200],
                                     borderRadius: BorderRadius.circular(8),
                                     boxShadow: click
                                         ? null
@@ -616,7 +628,7 @@ class _HomePageState extends State<HomePage> {
                             child: AnimatedContainer(
                                 child: Icon(
                                   Icons.currency_exchange_sharp,
-                                  color: Colors.blue,
+                                  color: Colors.green,
                                   size: ScreenUtil().setSp(30),
                                 ),
                                 height: ScreenUtil().setHeight(40),
@@ -624,7 +636,7 @@ class _HomePageState extends State<HomePage> {
                                 duration: Duration(milliseconds: 1),
                                 curve: Curves.easeInBack,
                                 decoration: BoxDecoration(
-                                    color: Colors.grey[200],
+                                    color: Colors.lightGreen[200],
                                     borderRadius: BorderRadius.circular(8),
                                     boxShadow: click
                                         ? null
@@ -649,11 +661,11 @@ class _HomePageState extends State<HomePage> {
                   height: 15,
                 ),
                 Container(
-                  width: ScreenUtil().setWidth(330),
+                  width: ScreenUtil().setWidth(340),
                   height: ScreenUtil().setHeight(200),
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color: Colors.lightGreen[200],
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
@@ -834,7 +846,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: ScreenUtil().setSp(12),
-                                color: Colors.blue,
+                                color: Colors.green,
                               ),
                               textAlign: TextAlign.end,
                             )),
