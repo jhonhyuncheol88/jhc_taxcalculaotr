@@ -6,9 +6,11 @@ import 'package:jhc_provider_taxcalculator/model.dart';
 import 'package:provider/provider.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Hive.initFlutter();
   await Hive.openBox('box');
   runApp(MyApp());

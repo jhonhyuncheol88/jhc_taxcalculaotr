@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:hive/hive.dart';
 import 'onbordingpage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +17,46 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //텍스트 필드 클릭하면 화면이 올라가는 값을 저장 하는 변수
+  ScrollController _scrollController = ScrollController();
+  //배너 광고 코드, 화면에 맞는 코드 짜게 하기
+  BannerAd? banner;
+
+  Future<void> _loadAd() async {
+    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
+    final AnchoredAdaptiveBannerAdSize? size =
+        await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+            MediaQuery.of(context).size.width.truncate());
+
+    if (size == null) {
+      print('Unable to get height of anchored banner.');
+      return;
+    }
+
+    banner = BannerAd(
+      // TODO: replace these test ad units with your own ad unit.
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+
+      size: size,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          print('$ad loaded: ${ad.responseInfo}');
+          setState(() {
+            // When the ad is loaded, get the ad size and use it to set
+            // the height of the ad container.
+            banner = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          print('Anchored adaptive banner failedToLoad: $error');
+          ad.dispose();
+        },
+      ),
+    );
+    return banner!.load();
+  }
+
   var mybox = Hive.box('box');
 
   bool click = false; //계산 버튼 애니메이션
@@ -38,6 +79,12 @@ class _HomePageState extends State<HomePage> {
   double overcreditcardHelp = 10000000;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadAd();
+  }
+
+  @override
   void initState() {
     if (mybox.get('tax') == null) {
       context.read<Taxsave>().estimateTaxsave = 0;
@@ -53,6 +100,17 @@ class _HomePageState extends State<HomePage> {
     spendingfoodController = TextEditingController();
     spendingproductController = TextEditingController();
 
+    _scrollController = ScrollController();
+
+    // banner = BannerAd(
+
+    //
+    //  size: AdSize(width: 728, height: 90),
+    //  adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+    // listener: BannerAdListener(),
+    //  request: AdRequest())
+    //..load();
+
     super.initState();
   }
 
@@ -61,6 +119,8 @@ class _HomePageState extends State<HomePage> {
     incomeController.dispose();
     spendingfoodController.dispose();
     spendingproductController.dispose();
+    banner?.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -230,6 +290,7 @@ class _HomePageState extends State<HomePage> {
             });
           },
           child: SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               children: [
                 Padding(padding: EdgeInsets.all(5)),
@@ -241,13 +302,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Container(
-                  child: Text('광고자리'),
-                  color: Colors.amber,
+                  child: this.banner == null
+                      ? Container()
+                      : Container(
+                          color: Colors.green,
+                          width: banner!.size.width.toDouble(),
+                          height: banner!.size.height.toDouble(),
+                          child: AdWidget(ad: banner!)),
                   width: ScreenUtil().setWidth(double.infinity),
                   height: ScreenUtil().setHeight(80),
-                ),
-                SizedBox(
-                  height: ScreenUtil().setHeight(5),
+                  color: Colors.green,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -266,7 +330,9 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Text(
                           '도움말',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: ScreenUtil().setSp(12)),
                         ),
                       ),
                     ),
@@ -282,7 +348,9 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Text(
                           '초기화',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: ScreenUtil().setSp(12)),
                         ),
                       ),
                     )
@@ -384,7 +452,12 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       width: ScreenUtil().setWidth(200),
                       child: TextField(
-                        onTap: () {},
+                        onTap: () {
+                          _scrollController.animateTo(120.0,
+                              //텍스트필드 클릭하면 스크롤을 올려줌 -> 계산기 버튼이 잘 보일 수 있게 하기
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease);
+                        },
                         maxLength: 11,
                         controller: spendingfoodController,
                         keyboardType: TextInputType.number,
@@ -447,6 +520,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       width: ScreenUtil().setWidth(200),
                       child: TextField(
+                        onTap: () {},
                         maxLength: 11,
                         controller: spendingproductController,
                         keyboardType: TextInputType.number,
@@ -492,168 +566,127 @@ class _HomePageState extends State<HomePage> {
                         child: Center(
                           child: Column(
                             children: [
-                              Text(
-                                '클릭하면 세부내역 확인가능',
-                                style:
-                                    TextStyle(fontSize: ScreenUtil().setSp(10)),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(5),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
+                              Container(
+                                width: ScreenUtil().setWidth(180),
+                                height: ScreenUtil().setHeight(70),
+                                child: Column(children: [
+                                  Text(
+                                    '클릭하면 세부내역 확인가능',
+                                    style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(8)),
+                                  ),
+                                  SizedBox(
+                                    height: ScreenUtil().setHeight(5),
+                                  ),
                                   Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         '계산 한 날짜',
                                         style: TextStyle(
-                                            fontSize: ScreenUtil().setSp(8)),
+                                            fontSize: ScreenUtil().setSp(10)),
                                       ),
                                       SizedBox(
-                                        width: ScreenUtil().setWidth(40),
+                                        width: ScreenUtil().setWidth(30),
                                       ),
                                       Text('예상 부가세',
                                           style: TextStyle(
-                                              fontSize: ScreenUtil().setSp(8))),
+                                              fontSize:
+                                                  ScreenUtil().setSp(10))),
                                     ],
                                   ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(5),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                      context.read<Taxsave>().today == ""
-                                          ? "날짜"
-                                          : context.read<Taxsave>().today,
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(8))),
                                   SizedBox(
-                                    width: ScreenUtil().setWidth(5),
+                                    height: ScreenUtil().setHeight(5),
                                   ),
-                                  Text(
-                                    comma.format(context
-                                        .read<Taxsave>()
-                                        .estimateTaxsave),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: ScreenUtil().setSp(8),
-                                      color: Colors.black,
-                                    ),
-                                    textAlign: TextAlign.end,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          context.read<Taxsave>().today == ""
+                                              ? "날짜"
+                                              : context.read<Taxsave>().today,
+                                          style: TextStyle(
+                                              fontSize:
+                                                  ScreenUtil().setSp(10))),
+                                      Text(
+                                        comma.format(context
+                                            .read<Taxsave>()
+                                            .estimateTaxsave),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: ScreenUtil().setSp(10),
+                                          color: Colors.black,
+                                        ),
+                                        textAlign: TextAlign.end,
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ]),
                               ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    spendingproductController.text.isEmpty
-                        ? GestureDetector(
-                            onTap: () {
-//클릭 함수 1 =  계산된 부가세가 없으면 빈 박스가 나오게 하는 코드,
-
-                              setState(() {
-                                click = !click;
-                                FocusScope.of(context).unfocus();
-                              });
-                            },
-                            child: AnimatedContainer(
-                                child: Icon(
-                                  Icons.currency_exchange_sharp,
-                                  color: Colors.green,
-                                  size: ScreenUtil().setSp(50),
-                                ),
-                                height: ScreenUtil().setHeight(70),
-                                width: ScreenUtil().setWidth(70),
-                                duration: Duration(milliseconds: 1),
-                                curve: Curves.easeInBack,
-                                decoration: BoxDecoration(
-                                    color: Colors.lightGreen[200],
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: click
-                                        ? null
-                                        : [
-                                            BoxShadow(
-                                              offset: Offset(off2, off2),
-                                              color: Colors.black38,
-                                              blurRadius: blurR,
-                                              spreadRadius: spredR,
-                                            ),
-                                            BoxShadow(
-                                              offset: Offset(off1, off1),
-                                              color: Colors.white70,
-                                              blurRadius: blurR,
-                                              spreadRadius: spredR,
-                                            )
-                                          ])),
-                          )
-                        : GestureDetector(
-                            onTap: () {
+                    GestureDetector(
+                      onTap: () {
 //클릭 함수
-                              // 텍스트 필드의 값이 비어있으면 날짜는 기존 데이터의 저장 된 값으로 쓰고
-                              // 아니면 현재 날짜를 저장하게 함
+                        // 텍스트 필드의 값이 비어있으면 날짜는 기존 데이터의 저장 된 값으로 쓰고
+                        // 아니면 현재 날짜를 저장하게 함
 
-                              setState(() {
-                                click = !click;
-                                convertStringToDouble();
-                                context.read<Taxsave>().today =
-                                    DateFormat('yy년 MM월 dd일')
-                                        .format(DateTime.now());
+                        setState(() {
+                          click = !click;
+                          convertStringToDouble();
+                          context.read<Taxsave>().today =
+                              DateFormat('yy년 MM월 dd일').format(DateTime.now());
 
-                                mybox.put(
-                                    'taxtime', context.read<Taxsave>().today);
+                          mybox.put('taxtime', context.read<Taxsave>().today);
 
-                                mybox.put('tax',
-                                    context.read<Taxsave>().estimateTaxsave);
+                          mybox.put(
+                              'tax', context.read<Taxsave>().estimateTaxsave);
 
-                                mybox.put('taxincome',
-                                    context.read<Taxsave>().taxincomesave);
-                                mybox.put('spendingfood',
-                                    context.read<Taxsave>().spendingFoodsave);
-                                mybox.put('spendingproduct',
-                                    context.read<Taxsave>().spendingProuctsave);
+                          mybox.put('taxincome',
+                              context.read<Taxsave>().taxincomesave);
+                          mybox.put('spendingfood',
+                              context.read<Taxsave>().spendingFoodsave);
+                          mybox.put('spendingproduct',
+                              context.read<Taxsave>().spendingProuctsave);
 
-                                FocusScope.of(context).unfocus(); //키보드 내리는 함수
-                              });
-                            },
-                            child: AnimatedContainer(
-                                child: Icon(
-                                  Icons.currency_exchange_sharp,
-                                  color: Colors.green,
-                                  size: ScreenUtil().setSp(50),
-                                ),
-                                height: ScreenUtil().setHeight(70),
-                                width: ScreenUtil().setWidth(70),
-                                duration: Duration(milliseconds: 1),
-                                curve: Curves.easeInBack,
-                                decoration: BoxDecoration(
-                                    color: Colors.lightGreen[200],
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: click
-                                        ? null
-                                        : [
-                                            BoxShadow(
-                                              offset: Offset(off2, off2),
-                                              color: Colors.black38,
-                                              blurRadius: blurR,
-                                              spreadRadius: spredR,
-                                            ),
-                                            BoxShadow(
-                                              offset: Offset(off1, off1),
-                                              color: Colors.white70,
-                                              blurRadius: blurR,
-                                              spreadRadius: spredR,
-                                            )
-                                          ])),
+                          FocusScope.of(context).unfocus(); //키보드 내리는 함수
+                        });
+                      },
+                      child: AnimatedContainer(
+                          child: Icon(
+                            Icons.currency_exchange_sharp,
+                            color: Colors.green,
+                            size: ScreenUtil().setSp(50),
                           ),
+                          height: ScreenUtil().setHeight(70),
+                          width: ScreenUtil().setWidth(70),
+                          duration: Duration(milliseconds: 1),
+                          curve: Curves.easeInBack,
+                          decoration: BoxDecoration(
+                              color: Colors.lightGreen[200],
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: click
+                                  ? null
+                                  : [
+                                      BoxShadow(
+                                        offset: Offset(off2, off2),
+                                        color: Colors.black38,
+                                        blurRadius: blurR,
+                                        spreadRadius: spredR,
+                                      ),
+                                      BoxShadow(
+                                        offset: Offset(off1, off1),
+                                        color: Colors.white70,
+                                        blurRadius: blurR,
+                                        spreadRadius: spredR,
+                                      )
+                                    ])),
+                    ),
                   ],
                 ),
                 SizedBox(
