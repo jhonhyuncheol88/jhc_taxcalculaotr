@@ -75,7 +75,7 @@ class _IntroScreen extends State<IntroScreen> {
         PageViewModel(
           title: "절세의 시작은 부가세입니다.",
           body: "\n"
-              "사장님의 1년 부가세가 다음해의 종합소득세의 과세표준이 되며 종합소득세에 따라서 연금과 \n건강보험료가 측정됩니다.\n "
+              "사장님의 1년 부가세가 다음해의 종합소득세의 과세표준이 되며 종합소득세에 따라서 연금과 건강보험료가 측정됩니다.\n "
               "\n절세의 시작은 부가세!",
           image: Image.asset('assets/image/003.png'),
           decoration: pageDecoration,
