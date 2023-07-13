@@ -60,14 +60,12 @@ class _IntroScreen extends State<IntroScreen> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "계산된 예상 부가세와 실제 부가세가 차이나는 경우",
+          title: "계산된 예상 부가세와 \n실제 부가세가 차이나는 경우",
           body: ""
               "\n"
-              "가.신용카드공제 23년 연말까지 \n1000만원 한도\n"
-              "\n"
-              "나.놓친 지출 증빙 자료가 있다.\n"
-              "\n"
-              "다.식자재 지출과 공산품 지출을 \n정확히 구분하지 않았다",
+              "1. 신용카드공제 23년 연말까지 \n1000만원 한도\n"
+              "2. 놓친 지출 증빙 자료가 있다.\n"
+              "3. 식자재 지출과 공산품 지출을 \n정확히 구분하지 않았다",
           image: Image.asset('assets/image/002.png'),
           decoration: pageDecoration,
         ),

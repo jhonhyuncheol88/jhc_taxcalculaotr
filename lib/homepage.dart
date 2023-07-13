@@ -304,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                             '매출',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setSp(12),
+                                fontSize: ScreenUtil().setSp(10),
                                 color: Colors.white),
                           ),
                           SizedBox(
@@ -313,7 +313,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             '카드,배달,현금영수증',
                             style: TextStyle(
-                                fontSize: ScreenUtil().setSp(12),
+                                fontSize: ScreenUtil().setSp(9),
                                 color: Colors.white),
                           ),
                         ],
@@ -366,14 +366,14 @@ class _HomePageState extends State<HomePage> {
                             '지출1',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setSp(12),
+                                fontSize: ScreenUtil().setSp(10),
                                 color: Colors.white),
                           ),
                           SizedBox(height: 6),
                           Text(
                             '농축산물,식자재,면세물품',
                             style: TextStyle(
-                                fontSize: ScreenUtil().setSp(12),
+                                fontSize: ScreenUtil().setSp(9),
                                 color: Colors.white),
                           ),
                         ],
@@ -427,7 +427,7 @@ class _HomePageState extends State<HomePage> {
                             '지출2',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: ScreenUtil().setSp(11),
+                                fontSize: ScreenUtil().setSp(10),
                                 color: Colors.white),
                           ),
                           SizedBox(
@@ -436,7 +436,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             '공산품,배달대행,광고,월세',
                             style: TextStyle(
-                                fontSize: ScreenUtil().setSp(12),
+                                fontSize: ScreenUtil().setSp(9),
                                 color: Colors.white),
                           ),
                         ],
@@ -474,7 +474,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 SizedBox(
-                  height: ScreenUtil().setHeight(20),
+                  height: ScreenUtil().setHeight(8),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -488,17 +488,17 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.amber,
                             borderRadius: BorderRadius.circular(8)),
                         width: ScreenUtil().setWidth(250),
-                        height: ScreenUtil().setHeight(80),
+                        height: ScreenUtil().setHeight(75),
                         child: Center(
                           child: Column(
                             children: [
                               Text(
                                 '클릭하면 세부내역 확인가능',
                                 style:
-                                    TextStyle(fontSize: ScreenUtil().setSp(12)),
+                                    TextStyle(fontSize: ScreenUtil().setSp(10)),
                               ),
                               SizedBox(
-                                height: ScreenUtil().setHeight(10),
+                                height: ScreenUtil().setHeight(5),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -509,21 +509,20 @@ class _HomePageState extends State<HomePage> {
                                       Text(
                                         '계산 한 날짜',
                                         style: TextStyle(
-                                            fontSize: ScreenUtil().setSp(13)),
+                                            fontSize: ScreenUtil().setSp(8)),
                                       ),
                                       SizedBox(
                                         width: ScreenUtil().setWidth(40),
                                       ),
                                       Text('예상 부가세',
                                           style: TextStyle(
-                                              fontSize:
-                                                  ScreenUtil().setSp(13))),
+                                              fontSize: ScreenUtil().setSp(8))),
                                     ],
                                   ),
                                 ],
                               ),
                               SizedBox(
-                                height: ScreenUtil().setHeight(10),
+                                height: ScreenUtil().setHeight(5),
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -534,7 +533,7 @@ class _HomePageState extends State<HomePage> {
                                           ? "날짜"
                                           : context.read<Taxsave>().today,
                                       style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(13))),
+                                          fontSize: ScreenUtil().setSp(8))),
                                   SizedBox(
                                     width: ScreenUtil().setWidth(5),
                                   ),
@@ -544,7 +543,7 @@ class _HomePageState extends State<HomePage> {
                                         .estimateTaxsave),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: ScreenUtil().setSp(13),
+                                      fontSize: ScreenUtil().setSp(8),
                                       color: Colors.black,
                                     ),
                                     textAlign: TextAlign.end,
@@ -570,9 +569,9 @@ class _HomePageState extends State<HomePage> {
                                 child: Icon(
                                   Icons.currency_exchange_sharp,
                                   color: Colors.green,
-                                  size: ScreenUtil().setSp(30),
+                                  size: ScreenUtil().setSp(50),
                                 ),
-                                height: ScreenUtil().setHeight(40),
+                                height: ScreenUtil().setHeight(70),
                                 width: ScreenUtil().setWidth(70),
                                 duration: Duration(milliseconds: 1),
                                 curve: Curves.easeInBack,
@@ -629,9 +628,9 @@ class _HomePageState extends State<HomePage> {
                                 child: Icon(
                                   Icons.currency_exchange_sharp,
                                   color: Colors.green,
-                                  size: ScreenUtil().setSp(30),
+                                  size: ScreenUtil().setSp(50),
                                 ),
-                                height: ScreenUtil().setHeight(40),
+                                height: ScreenUtil().setHeight(70),
                                 width: ScreenUtil().setWidth(70),
                                 duration: Duration(milliseconds: 1),
                                 curve: Curves.easeInBack,
@@ -662,7 +661,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   width: ScreenUtil().setWidth(340),
-                  height: ScreenUtil().setHeight(200),
+                  height: ScreenUtil().setHeight(190),
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: Colors.lightGreen[200],
