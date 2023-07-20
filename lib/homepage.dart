@@ -34,9 +34,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     banner = BannerAd(
-      // TODO: replace these test ad units with your own ad unit.
       adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-
       size: size,
       request: AdRequest(),
       listener: BannerAdListener(
@@ -633,29 +631,39 @@ class _HomePageState extends State<HomePage> {
                     GestureDetector(
                       onTap: () {
 //클릭 함수
+                        click = !click;
                         // 텍스트 필드의 값이 비어있으면 날짜는 기존 데이터의 저장 된 값으로 쓰고
                         // 아니면 현재 날짜를 저장하게 함
 
-                        setState(() {
-                          click = !click;
-                          convertStringToDouble();
-                          context.read<Taxsave>().today =
-                              DateFormat('yy년 MM월 dd일').format(DateTime.now());
+                        var today1 = context.read<Taxsave>().today;
 
-                          mybox.put('taxtime', context.read<Taxsave>().today);
+                        if (incomeController.text.isEmpty &&
+                            spendingfoodController.text.isEmpty &&
+                            spendingproductController.text.isEmpty) {
+                          setState(() {});
+                          context.read<Taxsave>().today = today1;
+                        } else {
+                          setState(() {
+                            convertStringToDouble();
+                            context.read<Taxsave>().today =
+                                DateFormat('yy년 MM월 dd일')
+                                    .format(DateTime.now());
 
-                          mybox.put(
-                              'tax', context.read<Taxsave>().estimateTaxsave);
+                            mybox.put('taxtime', context.read<Taxsave>().today);
 
-                          mybox.put('taxincome',
-                              context.read<Taxsave>().taxincomesave);
-                          mybox.put('spendingfood',
-                              context.read<Taxsave>().spendingFoodsave);
-                          mybox.put('spendingproduct',
-                              context.read<Taxsave>().spendingProuctsave);
+                            mybox.put(
+                                'tax', context.read<Taxsave>().estimateTaxsave);
 
-                          FocusScope.of(context).unfocus(); //키보드 내리는 함수
-                        });
+                            mybox.put('taxincome',
+                                context.read<Taxsave>().taxincomesave);
+                            mybox.put('spendingfood',
+                                context.read<Taxsave>().spendingFoodsave);
+                            mybox.put('spendingproduct',
+                                context.read<Taxsave>().spendingProuctsave);
+
+                            FocusScope.of(context).unfocus(); //키보드 내리는 함수
+                          });
+                        }
                       },
                       child: AnimatedContainer(
                           child: Icon(
